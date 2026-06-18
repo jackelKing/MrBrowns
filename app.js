@@ -349,6 +349,8 @@ function initScrollEffects() {
 }
 
 // ── Active Category Tracking ──────────────
+let currentActiveId = '';
+
 function initCategoryTracking() {
   const nav = document.getElementById('category-nav');
   const sections = document.querySelectorAll('.menu-section');
@@ -383,7 +385,8 @@ function initCategoryTracking() {
         activeSectionId = sections[0].id;
       }
 
-      if (activeSectionId) {
+      if (activeSectionId && activeSectionId !== currentActiveId) {
+        currentActiveId = activeSectionId;
         pills.forEach(pill => {
           const isActive = pill.dataset.target === activeSectionId;
           pill.classList.toggle('active', isActive);
