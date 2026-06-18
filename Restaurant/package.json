@@ -1,0 +1,22 @@
+{
+  "name": "li-devops",
+  "version": "1.0.0",
+  "description": "LI-devops agency web portal - MYWORKPAGE",
+  "main": "index.html",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "keywords": [
+    "portfolio",
+    "devops",
+    "advertising",
+    "web"
+  ],
+  "author": "premwork1806@gmail.com",
+  "license": "ISC",
+  "devDependencies": {
+    "vite": "^5.0.0"
+  }
+}
