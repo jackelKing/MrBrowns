@@ -268,7 +268,13 @@ function scrollToCategory(id) {
   
   const activePill = document.querySelector(`.nav-pill[data-target="${id}"]`);
   if (activePill) {
-    activePill.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
+    const container = document.getElementById('navContainer');
+    if (container) {
+      const pillOffset = activePill.offsetLeft;
+      const pillWidth = activePill.offsetWidth;
+      const containerWidth = container.offsetWidth;
+      container.scrollLeft = pillOffset - (containerWidth / 2) + (pillWidth / 2);
+    }
   }
 
   const navHeight = document.getElementById('category-nav').offsetHeight;
@@ -391,8 +397,14 @@ function initCategoryTracking() {
           const isActive = pill.dataset.target === activeSectionId;
           pill.classList.toggle('active', isActive);
           if (isActive) {
-            // Smoothly align the active pill inside the horizontal nav scrollbar
-            pill.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
+            // Instantly center active pill inside horizontal nav scroll container
+            const container = document.getElementById('navContainer');
+            if (container) {
+              const pillOffset = pill.offsetLeft;
+              const pillWidth = pill.offsetWidth;
+              const containerWidth = container.offsetWidth;
+              container.scrollLeft = pillOffset - (containerWidth / 2) + (pillWidth / 2);
+            }
           }
         });
       }
