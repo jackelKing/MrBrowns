@@ -24,7 +24,7 @@ const categoryImages = {
   'protein-packed-healthy-bowls':'https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=800&q=80&fit=crop',
 };
 
-const heroImage = 'https://images.unsplash.com/photo-1559925393-8be0ec4767c8?w=1400&q=80&fit=crop';
+const heroImage = 'images/hero_bg.jpg';
 
 // ── Menu Data ──────────────────────────────
 const menuData = [
@@ -93,7 +93,7 @@ const menuData = [
   {
     id: 'quick-bites',
     name: 'Quick Bites',
-    icon: '🍗',
+    icon: '🥨',
     items: [
       { name: "Onion Rings",              price: "79",  desc: "Crispy fried onion rings with a light crunchy coating", type: "veg" },
       { name: "Veg Nuggets",              price: "79",  desc: "Crispy nuggets filled with mixed vegetables, soft inside and crunchy outside", type: "veg" },
@@ -216,6 +216,9 @@ const menuData = [
   },
 ];
 
+// ── Scroll Lock State ──────────────────────
+let isManualScrolling = false;
+
 // ── DOM Ready ──────────────────────────────
 document.addEventListener('DOMContentLoaded', () => {
   setHeroBackground();
@@ -238,19 +241,45 @@ function setHeroBackground() {
 function renderCategoryNav() {
   const container = document.getElementById('navContainer');
   container.innerHTML = menuData.map(cat =>
-    `<button class="nav-pill" data-target="${cat.id}" onclick="scrollToCategory('${cat.id}')">
+    `<button class="nav-pill" data-target="${cat.id}">
       <span class="nav-icon">${cat.icon}</span>
       <span class="nav-label">${cat.name}</span>
     </button>`
   ).join('');
+
+  // Dynamically attach click handlers to avoid inline onclick scope issues
+  container.querySelectorAll('.nav-pill').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const targetId = btn.dataset.target;
+      scrollToCategory(targetId);
+    });
+  });
 }
 
 function scrollToCategory(id) {
   const el = document.getElementById(id);
   if (!el) return;
+  
+  isManualScrolling = true;
+
+  // Highlight pill immediately
+  const pills = document.querySelectorAll('.nav-pill');
+  pills.forEach(p => p.classList.toggle('active', p.dataset.target === id));
+  
+  const activePill = document.querySelector(`.nav-pill[data-target="${id}"]`);
+  if (activePill) {
+    activePill.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
+  }
+
   const navHeight = document.getElementById('category-nav').offsetHeight;
   const y = el.getBoundingClientRect().top + window.scrollY - navHeight - 12;
+  
   window.scrollTo({ top: y, behavior: 'smooth' });
+
+  // Reset lock state after transition ends
+  setTimeout(() => {
+    isManualScrolling = false;
+  }, 800);
 }
 
 // ── Menu Rendering ────────────────────────
@@ -324,32 +353,48 @@ function initCategoryTracking() {
   const nav = document.getElementById('category-nav');
   const sections = document.querySelectorAll('.menu-section');
   const pills = document.querySelectorAll('.nav-pill');
-
-  // Sticky nav shadow
   const heroEl = document.getElementById('hero');
-  const stickyObserver = new IntersectionObserver(([entry]) => {
-    nav.classList.toggle('stuck', !entry.isIntersecting);
-  }, { threshold: 0 });
-  stickyObserver.observe(heroEl);
 
-  // Active section tracking
-  const sectionObserver = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        const id = entry.target.id;
-        pills.forEach(pill => {
-          pill.classList.toggle('active', pill.dataset.target === id);
-        });
-        // Scroll active pill into view
-        const activePill = document.querySelector(`.nav-pill[data-target="${id}"]`);
-        if (activePill) {
-          activePill.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
+  let scrollFrame;
+  window.addEventListener('scroll', () => {
+    if (scrollFrame) window.cancelAnimationFrame(scrollFrame);
+    
+    scrollFrame = window.requestAnimationFrame(() => {
+      // Toggle sticky shadow class on scroll position
+      const heroBottom = heroEl.getBoundingClientRect().bottom;
+      nav.classList.toggle('stuck', heroBottom <= nav.offsetHeight);
+
+      // Track active category section
+      if (isManualScrolling) return;
+
+      const navHeight = nav.offsetHeight;
+      let activeSectionId = '';
+
+      sections.forEach(sec => {
+        const rect = sec.getBoundingClientRect();
+        // A section is active if its top is near or past the sticky nav bottom
+        if (rect.top <= navHeight + 40) {
+          activeSectionId = sec.id;
         }
+      });
+
+      // Default to first section if scrolling near top
+      if (!activeSectionId && sections.length > 0) {
+        activeSectionId = sections[0].id;
+      }
+
+      if (activeSectionId) {
+        pills.forEach(pill => {
+          const isActive = pill.dataset.target === activeSectionId;
+          pill.classList.toggle('active', isActive);
+          if (isActive) {
+            // Smoothly align the active pill inside the horizontal nav scrollbar
+            pill.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
+          }
+        });
       }
     });
-  }, { threshold: 0.15, rootMargin: `-${nav.offsetHeight + 20}px 0px -60% 0px` });
-
-  sections.forEach(sec => sectionObserver.observe(sec));
+  });
 }
 
 // ── Scroll-to-Top Button ──────────────────
@@ -368,11 +413,15 @@ function initSmoothScroll() {
   document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     anchor.addEventListener('click', (e) => {
       e.preventDefault();
-      const target = document.querySelector(anchor.getAttribute('href'));
-      if (target) {
-        const navHeight = document.getElementById('category-nav').offsetHeight;
-        const y = target.getBoundingClientRect().top + window.scrollY - navHeight - 12;
-        window.scrollTo({ top: y, behavior: 'smooth' });
+      const targetAttr = anchor.getAttribute('href');
+      if (targetAttr === '#menu') {
+        const firstSection = menuData[0]?.id;
+        if (firstSection) {
+          scrollToCategory(firstSection);
+        }
+      } else {
+        const targetId = targetAttr.substring(1);
+        scrollToCategory(targetId);
       }
     });
   });
