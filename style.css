@@ -140,7 +140,7 @@ body {
 
 .title-mr {
   display: block;
-  font-size: 2.2rem;
+  font-size: clamp(1.6rem, 5vw, 2.2rem);
   font-weight: 400;
   font-style: italic;
   letter-spacing: 0.1em;
@@ -150,7 +150,7 @@ body {
 
 .title-browns {
   display: block;
-  font-size: 5rem;
+  font-size: clamp(2.8rem, 10vw, 5rem);
   font-weight: 700;
   letter-spacing: 0.05em;
   color: var(--accent-gold);
@@ -159,7 +159,7 @@ body {
 
 .hero-tagline {
   font-family: var(--font-serif);
-  font-size: 1.4rem;
+  font-size: clamp(1rem, 3vw, 1.4rem);
   font-style: italic;
   letter-spacing: 0.2em;
   color: var(--text-primary);
@@ -169,7 +169,7 @@ body {
 }
 
 .hero-subtitle {
-  font-size: 1.05rem;
+  font-size: clamp(0.88rem, 2vw, 1.05rem);
   color: var(--text-secondary);
   max-width: 500px;
   margin: 0 auto 36px;
@@ -185,7 +185,7 @@ body {
   text-decoration: none;
   font-family: var(--font-sans);
   font-weight: 600;
-  font-size: 0.95rem;
+  font-size: clamp(0.85rem, 1.8vw, 0.95rem);
   letter-spacing: 0.1em;
   text-transform: uppercase;
   padding: 16px 36px;
@@ -670,21 +670,8 @@ body {
 
 /* ── MOBILE DESIGN OPTIMIZATIONS ───────────────────────────────────────── */
 @media (max-width: 480px) {
-  .title-mr {
-    font-size: 1.8rem;
-  }
-  .title-browns {
-    font-size: 3.5rem;
-  }
-  .hero-tagline {
-    font-size: 1.1rem;
-  }
-  .hero-subtitle {
-    font-size: 0.95rem;
-  }
   .hero-cta {
     padding: 14px 28px;
-    font-size: 0.88rem;
   }
   
   .section-header {
@@ -708,4 +695,80 @@ body {
   .item-price {
     font-size: 1.15rem;
   }
+}
+
+/* ── LI-DEVOPS FOOTER CARD ──────────────────────────────────────────────── */
+.li-devops-footer-card {
+  background: var(--bg-tertiary);
+  border: 1px solid rgba(var(--accent-gold-rgb), 0.12);
+  border-radius: var(--border-radius);
+  padding: 24px 30px;
+  margin: 24px auto;
+  max-width: 500px;
+  text-align: center;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
+  transition: var(--transition-smooth);
+}
+
+.li-devops-footer-card:hover {
+  border-color: rgba(var(--accent-gold-rgb), 0.35);
+  box-shadow: 0 12px 35px rgba(0, 0, 0, 0.35);
+  transform: translateY(-2px);
+}
+
+.li-devops-footer-card .card-subtitle {
+  font-size: 0.78rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--text-secondary);
+  margin-bottom: 4px;
+}
+
+.li-devops-footer-card .card-title {
+  font-family: var(--font-serif);
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: var(--accent-gold);
+  margin-bottom: 12px;
+  letter-spacing: 0.05em;
+}
+
+.li-devops-footer-card .card-desc {
+  font-size: 0.88rem;
+  color: var(--text-secondary);
+  line-height: 1.5;
+  margin-bottom: 20px;
+}
+
+.li-devops-footer-card .li-cta-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(var(--accent-gold-rgb), 0.1);
+  color: var(--accent-gold);
+  border: 1px solid rgba(var(--accent-gold-rgb), 0.4);
+  text-decoration: none;
+  font-family: var(--font-sans);
+  font-weight: 600;
+  font-size: 0.85rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  padding: 10px 24px;
+  border-radius: 50px;
+  transition: var(--transition-fast);
+}
+
+.li-devops-footer-card .li-cta-btn:hover {
+  background: var(--accent-gold);
+  color: var(--bg-primary);
+  border-color: var(--accent-gold);
+  transform: scale(1.03);
+}
+
+.li-devops-footer-card .li-cta-btn svg {
+  transition: transform 0.2s ease;
+}
+
+.li-devops-footer-card .li-cta-btn:hover svg {
+  transform: translateX(3px);
 }
