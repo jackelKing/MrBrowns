@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+  <title>Mr. Brown's — Café & Diner | Menu</title>
+  <meta name="description" content="Mr. Brown's Café & Diner — Explore our signature frappes, gourmet pastas, loaded fries, fresh mojitos, wraps, sandwiches and more. Scan, browse, and order!">
+  <meta name="theme-color" content="#0D0907">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=DM+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- ══════ HERO ══════ -->
+  <header id="hero" class="hero">
+    <canvas id="particleCanvas" class="particle-canvas"></canvas>
+    <div class="hero-overlay"></div>
+    <div class="hero-content">
+      <div class="hero-badge">EST. 2024</div>
+      <h1 class="hero-title">
+        <span class="title-mr">MR.</span>
+        <span class="title-browns">BROWN'S</span>
+      </h1>
+      <p class="hero-tagline">— café & diner —</p>
+      <p class="hero-subtitle">Signature frappes · Gourmet bites · Good vibes</p>
+      <a href="#menu" class="hero-cta" id="heroCta">
+        <span>Explore Menu</span>
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M12 5v14M19 12l-7 7-7-7"/>
+        </svg>
+      </a>
+    </div>
+    <div class="scroll-indicator">
+      <div class="scroll-mouse">
+        <div class="scroll-dot"></div>
+      </div>
+    </div>
+  </header>
+
+  <!-- ══════ CATEGORY NAV ══════ -->
+  <nav id="category-nav" class="category-nav">
+    <div class="nav-wrapper">
+      <div class="nav-container" id="navContainer">
+        <!-- Dynamically populated by JS -->
+      </div>
+    </div>
+  </nav>
+
+  <!-- ══════ MENU ══════ -->
+  <main id="menu" class="menu-main">
+    <!-- Dynamically populated by JS -->
+  </main>
+
+  <!-- ══════ FOOTER ══════ -->
+  <footer id="footer" class="footer">
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <span class="footer-logo">MR. BROWN'S</span>
+        <span class="footer-tagline">café & diner</span>
+      </div>
+      <div class="footer-divider"></div>
+      <p class="footer-note">
+        Crafted with <span class="heart">❤️</span> by
+        <a href="../Restaurant/index.html" class="myworkpage-link" id="myworkpageLink" target="_blank" rel="noopener">
+          LI-devops
+        </a>
+      </p>
+      <p class="footer-copy">© 2024 Mr. Brown's. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <!-- ══════ SCROLL TO TOP ══════ -->
+  <button id="scrollTopBtn" class="scroll-top-btn" aria-label="Scroll to top">
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M18 15l-6-6-6 6"/>
+    </svg>
+  </button>
+
+  <script src="app.js"></script>
+</body>
+</html>
